@@ -7,6 +7,8 @@ import re
 repl = re.compile(r'(["]|\[\d+\])')
 #pattern to find the English words (useful for anime)
 words = re.compile(r'([a-zA-z]+ {0,1})+')
+#episode regex
+episode = re.compile(r'([a-zA-z]+ {0,1})+ \(\w+ ?\d{1,2}\)')
 #pattern to find the digits
 seasons_digit = re.compile(r'\d{1,3}')
 
@@ -21,7 +23,7 @@ def table_sniffer(section,page):
     tables = []
     section = section.lower()
     start = page.find(lambda tag: tag.name == 'h2' and section in tag.text.lower())
-    for tag in filter(lambda thing: type(thing) == bs4.element.Tag,start.next_elements):
+    for tag in filter(lambda thing: isinstance(thing,bs4.element.Tag),start.next_elements):
             if tag.name == 'h2':
                     break
             if tag.name == 'table':
@@ -30,8 +32,8 @@ def table_sniffer(section,page):
 
 def find_season(table):
     '''finds season above a given table'''
-    for tag in filter(lambda thing: type(thing) == bs4.element.Tag,table.previous_elements):
-        if tag.name == 'h3' and any(thing in tag.text.lower() for thing in ('season','series')):
+    for tag in filter(lambda thing: isinstance(thing,bs4.element.Tag),table.previous_elements):
+        if tag.name == 'h3' and any(thing in tag.text.lower() for thing in ('season','series','special')):
             return tag.text
 
 def get_headers(table):
