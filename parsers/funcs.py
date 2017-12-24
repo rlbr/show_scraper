@@ -6,7 +6,7 @@ import re
 #pattern to replace the refences in wikipedia
 repl = re.compile(r'(["]|\[\d+\])')
 #pattern to find the English words (useful for anime)
-words = re.compile(r'([a-zA-z]+ {0,1})+')
+words = re.compile(r'[\w ]+\w')
 #episode regex
 episode = re.compile(r'([a-zA-z]+ {0,1})+ \(\w+ ?\d{1,2}\)')
 #pattern to find the digits
@@ -33,7 +33,7 @@ def table_sniffer(section,page):
 def find_season(table):
     '''finds season above a given table'''
     for tag in filter(lambda thing: isinstance(thing,bs4.element.Tag),table.previous_elements):
-        if tag.name == 'h3' and any(thing in tag.text.lower() for thing in ('season','series','special')):
+        if tag.name == 'h3' and any(thing in tag.text.lower() for thing in ('season','series','special','movie')):
             return tag.text
 
 def get_headers(table):

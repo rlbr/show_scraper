@@ -11,17 +11,19 @@ def parse(BS):
         )
     show_dict = {}
     for season,table in tables:
-        if 'special' in season.lower():
+        if any(thing in season.lower() for thing in ('special','movie')):
             seas_no = words.search(season).group(0)
+            i=0
         else:
             seas_no = seasons_digit.search(season).group(0)
+            i = 1
         headers = sep(get_headers(table))
         
         episodes = table.find_all('tr',attrs = {'class':'vevent'})
         show_dict[seas_no] = {}
         for episode in episodes:
             episode = sep(episode)
-            ep_no = episode[1]
+            ep_no = episode[i]
             episode_dict = dict(zip(headers,episode))
             show_dict[seas_no][ep_no] = episode_dict
             
