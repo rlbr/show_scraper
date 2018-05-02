@@ -1,7 +1,7 @@
 if __name__ == '__main__':
-    from funcs import table_sniffer,get_headers,find_season,seasons_digit,sep,words
+    from .funcs import table_sniffer,get_headers,find_season,seasons_digit,sep,words
 else:
-    from parsers.funcs import table_sniffer,get_headers,find_season,seasons_digit,sep,words
+    from .funcs import table_sniffer,get_headers,find_season,seasons_digit,sep,words
 def parse(BS):
     page = BS
     tables = list(
