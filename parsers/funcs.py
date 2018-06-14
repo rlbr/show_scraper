@@ -47,6 +47,18 @@ def get_headers(table):
     '''gets the first row of a table, most likely to be the headers'''
     headers = table.find('tr')
     return headers
+def split_br(element):
+    '''splits text by <br> tags and newlines'''
+    ret = []
+    if isinstance(element,str):
+        ret = element.split('\n')
+    else:
+        for elem in element.recursiveChildGenerator():
+            if isinstance(elem, str):
+                ret += elem.split('\n')
+            elif elem.name in ('br','hr'):
+                pass
+    return ret
 
 def replace_with_char(element,char='\n'):
     '''replaces "br" and "hr" tags, as well as newlines, to a specified character'''
@@ -68,6 +80,14 @@ def sanitize(string):
         return parse_date(match.group(0))
     else:
         return string
-def sep(row):
+def sep(row,skip=[]):
     '''splits the row into columns and maps replace_with_char on each column'''
-    return list(map(sanitize,row.find_all(('th','td'))))
+    ret = []
+    for n,column in enumerate(row.find_all(('th','td'))):
+##        print(column)
+        if n in skip:
+            ret.append(column)
+        else:
+            ret.append(sanitize(replace_with_char(column.text,' ')))
+
+    return ret

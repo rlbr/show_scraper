@@ -1,7 +1,7 @@
 if __name__ == '__main__':
     from funcs import table_sniffer,get_headers,sep,words
 else:
-    from parsers.funcs import table_sniffer,get_headers,sep,words
+    from .funcs import table_sniffer,get_headers,sep,words
 def parse(BS):
     page = BS
     table = table_sniffer('episode',page)[0]
