@@ -12,8 +12,8 @@ def replace_with_char(element,char='\n'):
                 text += char
     return text
 __all__.append('replace_with_char')
-def sanitize(string):
-    string = replace_with_char(string,' ')
+def sanitize(string,newline_repl=' '):
+    string = replace_with_char(string,newline_repl)
     string = re.sub('\xa0|\u200a',' ',string)
     string = re.sub(' +$','',repl.sub('',string))
     match = re.search(r"\d{4}\D+\d{2}\D+\d{2}",string)
@@ -22,7 +22,9 @@ def sanitize(string):
     else:
         return string
 __all__.append('sanitize')
-def sep(row):
+def sep(row,repl=' '):
     '''splits the row into columns and maps replace_with_char on each column'''
-    return list(map(sanitize,row.find_all(('th','td'))))
+    return list(sanitize(column,repl) for column in row.find_all(('th','td')))
 __all__.append('sep')
+def sep_multi(row):
+    pass
