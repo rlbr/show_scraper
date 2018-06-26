@@ -1,3 +1,8 @@
+import os,sys
+path = __file__
+for i in range(3):
+    path = os.path.dirname(path)
+sys.path.insert(0,path)
 import funcs
 def parse(BS):
     return_dict = {}
@@ -9,7 +14,7 @@ def parse(BS):
         season_name = funcs.table.find_season(table)
         
         if any(term in season_name.lower() for term in ('special','movie')):
-            season_number = funcs.common.words.search(season).group(0)
+            season_number = funcs.common.words.search(season_name).group(0)
             episode_column = 0
         else:
             season_number = funcs.common.seasons_digit.search(season_name).group(0)
@@ -56,11 +61,5 @@ def parse(BS):
         return_dict[season_number] = season_dict
 
     return return_dict
-if __name__ == "__main__":
-    import time
-    with open(r"test_html\List of seinfeld episodes.html",'rb') as file:
-        p = funcs.common.BS(file,'lxml')
-        print('start')
-        start = time.time()
-        d = parse(p)
-        print(time.time()-start)
+__all__ = ['parse']
+

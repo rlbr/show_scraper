@@ -16,7 +16,7 @@ def parse(BS):
         return_dict[episode_number] = episode_dict
 
     return return_dict
-
+__all__ = ['parse']
 if __name__ == "__main__":
     import time
     with open(r"test_html\List of band of brothers episodes.html",'rb') as file:

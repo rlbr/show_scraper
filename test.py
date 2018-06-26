@@ -1,0 +1,15 @@
+tests = [
+    'band of brothers',
+    'better call saul',
+    'black mirror',
+##    'case closed',
+##    'darker than black',
+    'king of the hill',
+    'seinfeld',
+    'west world',
+    'the wire',
+    'the simpsons',
+    'futurama',
+    'rick and morty',
+    'westworld',
+    ]

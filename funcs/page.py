@@ -7,9 +7,12 @@ def search_it(show):
         re.IGNORECASE
         )
     results = w.search_raw('list of {show} episodes'.format(show = show))['query']['search']
-    return list(filter(
+    ret = list(filter(
         lambda result: regex.match(result['title']),results
         ))
+    if not ret:
+        ret = [w.search_raw('{show} tv'.format(show=show))['query']['search'][0]]
+    return ret
 __all__.append('search_it')
 def open_result(result):
     return w.page(pageid = result['pageid'])
