@@ -1,4 +1,4 @@
-import funcs
+from show_scraper import funcs
 def parse(BS):
     return_dict = {}
     tables = funcs.table.table_sniffer('episode',BS)

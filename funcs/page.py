@@ -1,5 +1,36 @@
 from .common import *
 __all__ = []
+@cache
+def search_raw(query, results=10, suggestion=False):
+    '''
+    Do a Wikipedia search for `query`.
+
+    Keyword arguments:
+
+    * results - the maxmimum number of results returned
+    * suggestion - if True, return results and suggestion (if any) in a tuple
+    '''
+
+    search_params = {
+        'list': 'search',
+        'srprop': '',
+        'srlimit': results,
+        'limit': results,
+        'srsearch': query
+    }
+    if suggestion:
+        search_params['srinfo'] = 'suggestion'
+
+    raw_results = _wiki_request(search_params)
+
+    if 'error' in raw_results:
+        if raw_results['error']['info'] in ('HTTP request timed out.', 'Pool queue is full'):
+            raise HTTPTimeoutError(query)
+        else:
+            raise WikipediaException(raw_results['error']['info'])
+
+    return raw_results
+
 def search_it(show):
     '''finds show based off of it's name, and returns episodes if article is split up'''
     regex = re.compile(
