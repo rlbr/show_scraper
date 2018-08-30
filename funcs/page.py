@@ -1,4 +1,6 @@
 from .common import *
+from wikipedia.util import cache
+from wikipedia.wikipedia import _wiki_request
 __all__ = []
 @cache
 def search_raw(query, results=10, suggestion=False):
@@ -37,12 +39,12 @@ def search_it(show):
         r'list of {show} (\(.+\) )?episodes( \(seasons 1-20\))?'.format(show=show),
         re.IGNORECASE
         )
-    results = w.search_raw('list of {show} episodes'.format(show = show))['query']['search']
+    results = search_raw('list of {show} episodes'.format(show = show))['query']['search']
     ret = list(filter(
         lambda result: regex.match(result['title']),results
         ))
     if not ret:
-        ret = [w.search_raw('{show} tv'.format(show=show))['query']['search'][0]]
+        ret = [search_raw('{show} tv'.format(show=show))['query']['search'][0]]
     return ret
 __all__.append('search_it')
 def open_result(result):

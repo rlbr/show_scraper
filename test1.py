@@ -1,6 +1,6 @@
-from scrapers.english import *
+from show_scraper.scrapers.english import *
+from show_scraper import funcs
 import pprint
-import funcs
 def get_info(show):
     results = funcs.page.search_it(show)
     d = {}
